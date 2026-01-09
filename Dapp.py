@@ -72,17 +72,17 @@ if menu == "🧬 Dashboard":
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.metric("🧠 Parkinson’s F1", "85.62%")
+        st.metric("🧠 Parkinson’s F1", "94%")
 
     with col2:
-        st.metric("💊 Kidney F1", "98.60%")
+        st.metric("💊 Kidney F1", "98%")
 
     with col3:
-        st.metric("🫁 Liver F1", "82.43%")
+        st.metric("🫁 Liver F1", "82%")
 
     data = pd.DataFrame({
     "Disease": ["Parkinson’s", "Kidney", "Liver"],
-    "F1 Score (%)": [85.62, 98.60, 82.43]
+    "F1 Score (%)": [94, 98, 82]
 })
     
 elif menu == "🧠 Parkinson's Prediction":
