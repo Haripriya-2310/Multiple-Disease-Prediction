@@ -108,73 +108,33 @@ elif menu == "🧠 Parkinson's Prediction":
     st.write("Provide your data to check for Parkinson's disease.")
     set_bg("C:/Users/harip/Downloads/brain.png")
 
-    col1, col2, col3, col4, col5 = st.columns(5)  
+    col1, col2, col3, col4 = st.columns(4) 
     
     with col1:
-        fo = st.text_input('MDVP: Fo(Hz)')
+        fo = st.text_input('Fundamental Frequency (Hz)', value=119.5)
         
     with col2:
-        fhi = st.text_input('MDVP: Fhi(Hz)')
-        
+        fhi = st.text_input('Max Frequency (Hz)',value=157.3)
+
     with col3:
-        flo = st.text_input('MDVP: Flo(Hz)')
+        Jitter_percent = st.text_input('MDVP: Jitter(%)',value=0.0078)
         
     with col4:
-        Jitter_percent = st.text_input('MDVP: Jitter(%)')
-        
-    with col5:
-        Jitter_Abs = st.text_input('MDVP: Jitter(Abs)')
-        
+        Shimmer = st.text_input('MDVP: Shimmer',value=0.043)
+
+    col1, col2, col3, col4 = st.columns(4)
+
     with col1:
-        RAP = st.text_input('MDVP: RAP')
+        HNR = st.text_input('HNR',value=21.3) 
         
     with col2:
-        PPQ = st.text_input('MDVP: PPQ')
+        RPDE = st.text_input('RPDE',value=0.35)
         
     with col3:
-        DDP = st.text_input('Jitter: DDP')
+        DFA = st.text_input('DFA',value=0.61)
         
     with col4:
-        Shimmer = st.text_input('MDVP: Shimmer')
-        
-    with col5:
-        Shimmer_dB = st.text_input('MDVP: Shimmer(dB)')
-        
-    with col1:
-        APQ3 = st.text_input('Shimmer: APQ3')
-        
-    with col2:
-        APQ5 = st.text_input('Shimmer: APQ5')
-        
-    with col3:
-        APQ = st.text_input('MDVP: APQ')
-        
-    with col4:
-        DDA = st.text_input('Shimmer: DDA')
-        
-    with col5:
-        NHR = st.text_input('NHR')
-        
-    with col1:
-        HNR = st.text_input('HNR') 
-        
-    with col2:
-        RPDE = st.text_input('RPDE')
-        
-    with col3:
-        DFA = st.text_input('DFA')
-        
-    with col4:
-        spread1 = st.text_input('spread1')
-        
-    with col5:
-        spread2 = st.text_input('spread2')
-        
-    with col1:
-        D2 = st.text_input('D2')
-        
-    with col2:
-        PPE = st.text_input('PPE')
+        PPE = st.text_input('PPE',value=0.28)
         
     
     # Prediction
@@ -188,14 +148,14 @@ elif menu == "🧠 Parkinson's Prediction":
 
     #  Create DataFrame for input
         input_data = pd.DataFrame(
-            [[fo, fhi, flo, Jitter_percent, Jitter_Abs, RAP, PPQ, DDP,
-            Shimmer, Shimmer_dB, APQ3, APQ5, APQ, DDA,
-            NHR, HNR, RPDE, DFA, spread1, spread2, D2, PPE]],
+            [[fo, fhi, Jitter_percent, Shimmer, 
+              HNR, RPDE, DFA, PPE]],
             columns=feature_names
         )
 
         # prediction
         parkinsons_prediction = parkinsons_pipeline.predict(input_data)[0]
+        parkinsons_probability = parkinsons_pipeline.predict_proba(input_data)[0][1]
 
         # display result
         if parkinsons_prediction == 1:
@@ -203,8 +163,8 @@ elif menu == "🧠 Parkinson's Prediction":
         else:
             parkinsons_diagnosis = "The person does not have Parkinson's disease"
 
-    st.success(parkinsons_diagnosis)
-
+        st.success(parkinsons_diagnosis)
+        st.info(f"Risk Probability: {parkinsons_probability*100:.2f}%")
 
 elif menu == "💊 Kidney Prediction":
     st.title("Kidney Prediction")
@@ -214,49 +174,46 @@ elif menu == "💊 Kidney Prediction":
     col1, col2, col3, col4, col5 = st.columns(5)  
     
     with col1:
-        age = st.text_input('Age')
+        age = st.text_input('Age',value=45)
         
     with col2:
-        bp = st.text_input('BP')
+        bp = st.text_input('Blood Pressure(BP)',value=80)
         
     with col3:
-        sg = st.selectbox('SG', ['normal', 'abnormal'])
-        sg = 0 if sg == 'normal' else 1
+        sg = st.number_input("Specific Gravity", value=1.02)
         
     with col4:
-        rbc = st.selectbox('RBC', ['normal', 'abnormal'])
+        rbc = st.selectbox('Red Blood Cells(RBC)', ['normal', 'abnormal'],index=0)
         rbc = 0 if rbc == 'normal' else 1
         
     with col5:
-        pc = st.selectbox('PC', ['normal', 'abnormal'])
+        pc = st.selectbox('PC', ['normal', 'abnormal'],index=0)
         pc = 0 if pc == 'normal' else 1
         
     with col1:
-        bgr = st.text_input('BGR')
+        bgr = st.text_input('Blood Glucose Random(BGR)',value=120)
         
     with col2:
-        sc = st.selectbox('SC', ['normal', 'abnormal'])
-        sc = 0 if sc == 'normal' else 1
+        sc = st.number_input("Serum Creatinine (mg/dL)", value=1.2)
         
     with col3:
-        hemo = st.text_input('HEMO')
+        hemo = st.text_input('Hemoglobin',value=11.5)
         
     with col4:
-        pcv = st.text_input('PCV')
+        pcv = st.text_input('PCV',value=36)
         
     with col5:
-        wc = st.selectbox('WC', ['yes', 'no'])
-        wc = 1 if wc == 'yes' else 0
+        wc = st.number_input('White Blood Cells (WC)',value=8000)
         
     with col1:
-        rc = st.text_input('RC')
+        rc = st.text_input('Red Blood Cells(RC)',value=4.5)
         
     with col2:
-        htn = st.selectbox('HTN', ['yes', 'no'])
+        htn = st.selectbox('Hypertension', ['yes', 'no'],index=1)
         htn = 1 if htn == 'yes' else 0
         
     with col3:
-        dm = st.selectbox('Diabetes Mellitus (DM)', ['yes', 'no'])
+        dm = st.selectbox('Diabetes Mellitus(DM)', ['yes', 'no'],index=1)
         dm = 1 if dm == 'yes' else 0
         
     # Prediction
@@ -279,6 +236,7 @@ elif menu == "💊 Kidney Prediction":
 
         # prediction
         kidney_prediction = kidney_pipeline.predict(input_data)[0]
+        kidney_prob = kidney_pipeline.predict_proba(input_data)[0][1]
 
         # display result
         if kidney_prediction == 1:
@@ -286,7 +244,8 @@ elif menu == "💊 Kidney Prediction":
         else:
             kidney_diagnosis = "The person does not have Kidney disease"
 
-    st.success(kidney_diagnosis)
+        st.success(kidney_diagnosis)
+        st.info(f"Risk Probability: {kidney_prob*100:.2f}%")
 
 
 elif menu == "🫁 Liver Prediction":
@@ -297,35 +256,35 @@ elif menu == "🫁 Liver Prediction":
     col1, col2, col3, col4, col5 = st.columns(5)  
     
     with col1:
-        age = st.text_input('Age')
+        age = st.text_input('Age',value=45)
         
     with col2:
-        gender = st.selectbox('Gender', ['Female', 'Male'])
+        gender = st.selectbox('Gender', ['Female', 'Male'],index=0)
         gender = 0 if gender == 'Male' else 1
         
     with col3:
-        total_bilirubin = st.text_input('Total_Bilirubin')
+        total_bilirubin = st.text_input('Total Bilirubin',value=1.0)
         
     with col4:
-        direct_bilirubin = st.text_input('Direct_Bilirubin')
+        direct_bilirubin = st.text_input('Direct Bilirubin',value=0.3)
         
     with col5:
-        alkaline_phosphotase = st.text_input('Alkaline_Phosphotase')
+        alkaline_phosphotase = st.text_input('Alkaline Phosphotase',value=250)
         
     with col1:
-        alamine_aminotransferase = st.text_input('Alamine_Aminotransferase')
+        alamine_aminotransferase = st.text_input('Alamine Aminotransferase',value=30)
         
     with col2:
-        aspartate_aminotransferase = st.text_input('Aspartate_Aminotransferase')
+        aspartate_aminotransferase = st.text_input('Aspartate Aminotransferase',value=35)
         
     with col3:
-        total_protiens = st.text_input('Total_Protiens')
+        total_protiens = st.text_input('Total Protiens',value=6.5)
         
     with col4:
-        albumin = st.text_input('Albumin')
+        albumin = st.text_input('Albumin',value=3.5)
         
     with col5:
-        albumin_and_globulin_ratio = st.text_input('Albumin_and_Globulin_Ratio')
+        albumin_and_globulin_ratio = st.text_input('Albumin/Globulin_Ratio',value=1.2)
         
     
     # Prediction
@@ -352,6 +311,8 @@ elif menu == "🫁 Liver Prediction":
 
         # prediction
         liver_prediction = liver_pipeline.predict(input_data)[0]
+        liver_probabilities = liver_pipeline.predict_proba(input_data)
+        liver_risk = liver_probabilities[0][1]
 
         # display result
         if liver_prediction == 1:
@@ -359,4 +320,7 @@ elif menu == "🫁 Liver Prediction":
         else:
             liver_diagnosis = "The person does not have Liver disease"
 
-    st.success(liver_diagnosis)
+        st.success(liver_diagnosis)
+
+        # Show probability
+        st.info(f"Risk Probability: {liver_risk*100:.2f}%")
