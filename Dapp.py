@@ -84,24 +84,6 @@ if menu == "🧬 Dashboard":
     "Disease": ["Parkinson’s", "Kidney", "Liver"],
     "F1 Score (%)": [85.62, 98.60, 82.43]
 })
-
-    # Plotting-Bar
-    st.subheader("Diseases F1 Score Comparison")
-    fig = px.bar(
-        data,
-        x="Disease",
-        y="F1 Score (%)",
-        color="Disease",
-        color_discrete_map={
-            "Parkinson’s": "#1f77b4",
-            "Kidney": "#2ca02c",
-            "Liver": "#ff7f0e",
-        },
-        title="📊 F1 Score Comparison"
-    )
-
-    st.plotly_chart(fig, use_container_width=True)
-
     
 elif menu == "🧠 Parkinson's Prediction":
     st.title("Parkinson's Prediction")
